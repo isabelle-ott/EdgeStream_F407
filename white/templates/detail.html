@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="panel detail-panel">
+  <div class="panel-head">
+    <h2>学生详情</h2>
+    <p>{{ student.name }} 的完整档案信息。</p>
+  </div>
+
+  <div class="detail-grid">
+    {% for key, label in [
+      ('student_id','学号'), ('name','姓名'), ('gender','性别'), ('grade','年级'), ('class_name','班级'), ('major','专业'),
+      ('birth_date','出生日期'), ('phone','手机号'), ('email','邮箱'), ('address','家庭住址'), ('guardian_name','监护人姓名'),
+      ('guardian_phone','监护人电话'), ('id_card','身份证号'), ('student_number','学籍号'), ('enrollment_date','入学日期'),
+      ('status','状态'), ('dormitory','宿舍'), ('hobby','爱好'), ('emergency_contact','紧急联系人'), ('emergency_phone','紧急电话'),
+      ('remark','备注'), ('created_at','创建时间'), ('updated_at','更新时间')
+    ] %}
+      <div class="detail-item">
+        <span>{{ label }}</span>
+        <strong>{{ student[key] if student[key] else '未填写' }}</strong>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="form-actions">
+    <a class="btn btn-secondary" href="{{ url_for('index') }}">返回</a>
+    <a class="btn btn-primary" href="{{ url_for('edit_student', student_id=student.student_id) }}">编辑</a>
+  </div>
+</section>
+{% endblock %}

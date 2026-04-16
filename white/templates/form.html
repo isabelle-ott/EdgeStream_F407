@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="panel form-panel">
+  <div class="panel-head">
+    <h2>{{ '编辑学生信息' if mode == 'edit' else '新增学生信息' }}</h2>
+    <p>填写尽量完整的学生档案信息。</p>
+  </div>
+
+  <form class="grid-form" method="post">
+    <label>学号<input name="student_id" value="{{ student.student_id if student else '' }}" {{ 'readonly' if mode == 'edit' else '' }} required></label>
+    <label>姓名<input name="name" value="{{ student.name if student else '' }}" required></label>
+    <label>性别
+      <select name="gender">
+        {% for item in ['男', '女', '未知'] %}
+        <option value="{{ item }}" {% if student and student.gender == item %}selected{% elif not student and item == '未知' %}selected{% endif %}>{{ item }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>年级<input name="grade" value="{{ student.grade if student else '' }}" placeholder="如：2026级"></label>
+    <label>班级<input name="class_name" value="{{ student.class_name if student else '' }}" placeholder="如：计算机1班"></label>
+    <label>专业<input name="major" value="{{ student.major if student else '' }}" placeholder="如：软件工程"></label>
+    <label>出生日期<input name="birth_date" value="{{ student.birth_date if student else '' }}" placeholder="YYYY-MM-DD"></label>
+    <label>手机号<input name="phone" value="{{ student.phone if student else '' }}"></label>
+    <label>邮箱<input name="email" value="{{ student.email if student else '' }}"></label>
+    <label>家庭住址<input name="address" value="{{ student.address if student else '' }}"></label>
+    <label>监护人姓名<input name="guardian_name" value="{{ student.guardian_name if student else '' }}"></label>
+    <label>监护人电话<input name="guardian_phone" value="{{ student.guardian_phone if student else '' }}"></label>
+    <label>身份证号<input name="id_card" value="{{ student.id_card if student else '' }}"></label>
+    <label>学籍号<input name="student_number" value="{{ student.student_number if student else '' }}"></label>
+    <label>入学日期<input name="enrollment_date" value="{{ student.enrollment_date if student else '' }}" placeholder="YYYY-MM-DD"></label>
+    <label>在校状态
+      <select name="status">
+        {% for item in ['在读', '休学', '毕业', '退学', '转出'] %}
+        <option value="{{ item }}" {% if student and student.status == item %}selected{% elif not student and item == '在读' %}selected{% endif %}>{{ item }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>宿舍<input name="dormitory" value="{{ student.dormitory if student else '' }}"></label>
+    <label>爱好<input name="hobby" value="{{ student.hobby if student else '' }}"></label>
+    <label>紧急联系人<input name="emergency_contact" value="{{ student.emergency_contact if student else '' }}"></label>
+    <label>紧急联系电话<input name="emergency_phone" value="{{ student.emergency_phone if student else '' }}"></label>
+    <label class="full">备注<textarea name="remark" rows="4">{{ student.remark if student else '' }}</textarea></label>
+
+    <div class="full form-actions">
+      <button class="btn btn-primary" type="submit">保存</button>
+      <a class="btn btn-secondary" href="{{ url_for('index') }}">返回</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

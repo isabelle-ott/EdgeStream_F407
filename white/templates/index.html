@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="panel hero-panel">
+  <form class="search-bar" method="get" action="{{ url_for('index') }}">
+    <input type="text" name="q" placeholder="搜索学号、姓名、班级、专业、电话..." value="{{ keyword }}">
+    <button class="btn btn-primary" type="submit">搜索</button>
+  </form>
+
+  <div class="stats">
+    <div class="stat-card">
+      <span>学生总数</span>
+      <strong>{{ students|length }}</strong>
+    </div>
+    <div class="stat-card">
+      <span>系统状态</span>
+      <strong>Online</strong>
+    </div>
+    <div class="stat-card">
+      <span>数据存储</span>
+      <strong>JSON</strong>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel-head">
+    <h2>学生档案</h2>
+    <p>尽可能多记录学生信息，便于后续扩展到数据库。</p>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>学号</th>
+          <th>姓名</th>
+          <th>性别</th>
+          <th>年级</th>
+          <th>班级</th>
+          <th>专业</th>
+          <th>电话</th>
+          <th>状态</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for student in students %}
+        <tr>
+          <td>{{ student.student_id }}</td>
+          <td>{{ student.name }}</td>
+          <td>{{ student.gender }}</td>
+          <td>{{ student.grade }}</td>
+          <td>{{ student.class_name }}</td>
+          <td>{{ student.major }}</td>
+          <td>{{ student.phone }}</td>
+          <td><span class="badge">{{ student.status }}</span></td>
+          <td class="row-actions">
+            <a href="{{ url_for('student_detail', student_id=student.student_id) }}">详情</a>
+            <a href="{{ url_for('edit_student', student_id=student.student_id) }}">编辑</a>
+            <form method="post" action="{{ url_for('delete_student', student_id=student.student_id) }}" onsubmit="return confirm('确定删除该学生吗？');">
+              <button type="submit">删除</button>
+            </form>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="9" class="empty">暂无学生数据，请先新增一条记录。</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}
